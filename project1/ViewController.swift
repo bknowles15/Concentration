@@ -42,7 +42,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+    bro•••••••••••••
     private var emojiList = ["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎"]
     
     private var emojiDict = [Int: String]()

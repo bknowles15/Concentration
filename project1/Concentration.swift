@@ -8,13 +8,17 @@
 
 import Foundation
 
+/// A game of Concentration, including cards and logic to operate the game.
 class Concentration {
     var cards = [Card]()
     private(set) var numberOfPairsOfCards: Int
     var flipCount = 0
     
+    /// The index of the only face up card when only one card is face up.
+    /// If there are 0 or 2 face up cards, this is nil.
     var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
+            // Find the one and only face up card, if there is one
             var faceUpIndex: Int?
             for index in cards.indices {
                 if cards[index].isFaceUp, faceUpIndex == nil {
@@ -27,6 +31,7 @@ class Concentration {
             return faceUpIndex
         }
         set {
+            // Mark all cards as face down except the one and only face up card
             for index in cards.indices {
                 cards[index].isFaceUp = false
             }
@@ -36,6 +41,7 @@ class Concentration {
         }
     }
     
+    /// Marks selected card as face up and determines if user has found match.
     func chooseCard(at index: Int) {
         if !cards[index].isMatched {
             flipCount += 1
@@ -53,6 +59,7 @@ class Concentration {
         }
     }
     
+    /// Initializes the Concetration game to have `numberOfPairsOfCards` cards.
     init(numberOfPairsOfCards: Int) {
         self.numberOfPairsOfCards = numberOfPairsOfCards
         for _ in 0..<numberOfPairsOfCards {

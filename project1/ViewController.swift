@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     lazy private var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
     
+    /// Flips over card `sender` when user touches that card.
     @IBAction func touchCard(_ sender: UIButton) {
         flipCard(on: sender)
     }
@@ -19,7 +20,8 @@ class ViewController: UIViewController {
     
     @IBOutlet var cardButtons: [UIButton]!
     
-    func flipCard(on card: UIButton) {
+    /// Flips over card `card` when user touches that card (internal implementation).
+    private func flipCard(on card: UIButton) {
         let cardIndex = cardButtons.firstIndex(of: card)!
         if !game.cards[cardIndex].isMatched {
             if !game.cards[cardIndex].isFaceUp {
@@ -29,6 +31,7 @@ class ViewController: UIViewController {
         }
     }
     
+    /// Updates the UI after a card is chosen.
     private func updateViewFromModel() {
         flipCountLabel.text = "Flips: \(game.flipCount)"
         for index in cardButtons.indices {
@@ -42,11 +45,12 @@ class ViewController: UIViewController {
             }
         }
     }
-    bro•••••••••••••
+
     private var emojiList = ["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎"]
     
     private var emojiDict = [Int: String]()
     
+    /// Returns the emoji for card with identifier `identifier`.
     private func emoji(forCardID identifier: Int) -> String {
         if emojiDict[identifier] != nil {
             return emojiDict[identifier]!
@@ -64,6 +68,7 @@ class ViewController: UIViewController {
 }
 
 extension Int {
+    /// Returns a random number between 0 and `self`, exclusive.
     var arc4random: Int {
         if self > 0 {
             return Int(arc4random_uniform(UInt32(self)))

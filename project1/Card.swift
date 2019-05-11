@@ -8,17 +8,21 @@
 
 import Foundation
 
+/// A card in the Concentration game.
 class Card {
     var isFaceUp: Bool
     var isMatched: Bool
     var identifier: Int
 
     static var currentIdentifier: Int = 0
+    
+    /// Returns a new identifier for a card, set by the programmer.
     static func getNewIdentifier() -> Int {
         currentIdentifier += 1
         return currentIdentifier
     }
     
+    /// Initializes a card with identifier `id`.
     init(identifier id: Int) {
         isFaceUp = false
         isMatched = false

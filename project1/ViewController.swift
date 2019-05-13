@@ -17,8 +17,14 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var flipCountLabel: UILabel!
-    
     @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet weak var gameScore: UILabel!
+    @IBOutlet weak var newGameButton: UIButton!
+    
+    /// Creates a new game when the user touches `newGameButton`
+    @IBAction func touchNewGameButton(_ sender: UIButton) {
+    }
+    
     
     /// Flips over card `card` when user touches that card (internal implementation).
     private func flipCard(on card: UIButton) {
@@ -46,7 +52,23 @@ class ViewController: UIViewController {
         }
     }
 
-    private var emojiList = ["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎"]
+    /// Contains all emojis for all possible themes.
+    private let emojiThemes = [["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎", "🧟‍♀️"],
+                               ["⚽️", "🏀", "🏈", "⚾️", "🏐", "🎾", "⛳️", "🥊", "🏊‍♀️", "🚴‍♂️"],
+                               ["🍍", "🍔", "🍕", "🌮", "🍣", "🥧", "🍺", "🍷", "☕️", "🌶"],
+                               ["🏝", "🏜", "🌋", "🏔", "🏕", "💧", "🌪", "🔥", "⚡️", "☀️"],
+                               ["🐶", "🐱", "🐭", "🐸", "🙈", "🐼", "🐨", "🦁", "🐮", "🐷"],
+                               ["🇦🇺", "🇨🇦", "🇩🇪", "🇯🇵", "🇲🇽", "🇬🇧", "🇺🇸", "🇮🇳", "🇫🇷", "🇨🇳"]]
+    
+    /// Contains all color schemes for all possible themes.
+    private let themeColors = [["background": #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), "cards": #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)],
+                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
+                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
+                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
+                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
+                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]]
+    
+    private var emojiList = ["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎", "🧟‍♀️"]
     
     private var emojiDict = [Int: String]()
     

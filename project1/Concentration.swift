@@ -62,10 +62,13 @@ class Concentration {
     /// Initializes the Concetration game to have `numberOfPairsOfCards` cards.
     init(numberOfPairsOfCards: Int) {
         self.numberOfPairsOfCards = numberOfPairsOfCards
+        
         for _ in 0..<numberOfPairsOfCards {
             let newIdentifier = Card.getNewIdentifier()
             cards.append(Card(identifier: newIdentifier))
             cards.append(Card(identifier: newIdentifier))
         }
+        
+        cards.shuffle()
     }
 }

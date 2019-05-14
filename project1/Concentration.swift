@@ -13,6 +13,8 @@ class Concentration {
     var cards = [Card]()
     private(set) var numberOfPairsOfCards: Int
     var flipCount = 0
+    var gameScore = 0
+    var seenCardIndices: Set<Int> = []
     
     /// The index of the only face up card when only one card is face up.
     /// If there are 0 or 2 face up cards, this is nil.
@@ -47,9 +49,22 @@ class Concentration {
             flipCount += 1
             if let otherFaceUpCardIndex = indexOfOneAndOnlyFaceUpCard {
                 cards[index].isFaceUp = true
+                // Cards match
                 if cards[otherFaceUpCardIndex].identifier == cards[index].identifier {
                     cards[index].isMatched = true
                     cards[otherFaceUpCardIndex].isMatched = true
+                    gameScore += 2
+                }
+                // Cards do not match
+                else {
+                    if seenCardIndices.contains(cards[index].identifier) {
+                        gameScore -= 1
+                    }
+                    if seenCardIndices.contains(cards[otherFaceUpCardIndex].identifier) {
+                        gameScore -= 1
+                    }
+                    seenCardIndices.insert(cards[index].identifier)
+                    seenCardIndices.insert(cards[otherFaceUpCardIndex].identifier)
                 }
             }
             else {

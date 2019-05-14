@@ -75,6 +75,7 @@ class ViewController: UIViewController {
     /// Updates the UI after a card is chosen.
     private func updateViewFromModel() {
         flipCountLabel.text = "Flips: \(game.flipCount)"
+        gameScoreLabel.text = "Score: \(game.gameScore)"
         for index in cardButtons.indices {
             if game.cards[index].isFaceUp {
                 cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)

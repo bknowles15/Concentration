@@ -107,7 +107,7 @@ class ViewController: UIViewController {
         
         // Set the new theme
         emojiList = emojiThemes[themeIndex]
-        let backgroundColor = themeColors[themeIndex]["background"]
+        let backgroundColor = themeColors[themeIndex]["background"]!
         cardColor = themeColors[themeIndex]["cards"]!
         self.view.backgroundColor = backgroundColor
         flipCountLabel.textColor = cardColor
@@ -145,8 +145,7 @@ class ViewController: UIViewController {
             cardButtons[index].setTitle("", for: UIControl.State.normal)
             cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
         }
-        flipCountLabel.textColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
-        gameScoreLabel.text = "You win!"
+        flipCountLabel.text = "Game finished!"
     }
 }
 

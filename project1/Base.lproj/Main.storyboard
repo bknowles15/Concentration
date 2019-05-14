@@ -209,7 +209,7 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nRs-x2-N6R">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nRs-x2-N6R">
                                 <rect key="frame" x="102" y="490" width="171" height="157"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gxB-E4-HRo">
@@ -220,6 +220,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flips: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8q3-15-7ca">
                                         <rect key="frame" x="29.5" y="51" width="112" height="43"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                         <color key="textColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -241,7 +242,9 @@
                         <constraints>
                             <constraint firstItem="nRs-x2-N6R" firstAttribute="top" relation="greaterThanOrEqual" secondItem="QL9-bd-Due" secondAttribute="bottom" constant="8" symbolic="YES" id="A8p-Qq-nOD"/>
                             <constraint firstItem="Uug-by-Jxo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Y5o-34-Jso"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="nRs-x2-N6R" secondAttribute="bottom" constant="20" id="bIv-d2-ZYa"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="nRs-x2-N6R" secondAttribute="bottom" constant="20" id="bIv-d2-ZYa">
+                                <variation key="heightClass=compact-widthClass=compact" constant="40"/>
+                            </constraint>
                             <constraint firstItem="nRs-x2-N6R" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cgU-Od-SCc"/>
                             <constraint firstItem="QL9-bd-Due" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="hua-Mf-Pza"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QL9-bd-Due" secondAttribute="trailing" constant="16" id="x8d-Ts-Gf5"/>
@@ -276,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="40.799999999999997" y="20.239880059970016"/>
+            <point key="canvasLocation" x="40.64039408866995" y="20"/>
         </scene>
     </scenes>
 </document>

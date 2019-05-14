@@ -86,6 +86,20 @@ class ViewController: UIViewController {
                 cardButtons[index].backgroundColor = game.cards[index].isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : cardColor
             }
         }
+        
+        // When all cards matched, display win message
+        if game.isFinished {
+            showWinMessage()
+        }
+    }
+    
+    private func showWinMessage() {
+        for index in cardButtons.indices {
+            cardButtons[index].setTitle("", for: UIControl.State.normal)
+            cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
+        }
+        flipCountLabel.textColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
+        gameScoreLabel.text = "You win!"
     }
 
     /// Contains all emojis for all possible themes.

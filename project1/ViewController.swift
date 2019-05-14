@@ -14,94 +14,27 @@ class ViewController: UIViewController {
         setNewTheme()
     }
     
-    /// Sets a new theme for the Concentration game.
-    private func setNewTheme() {
-        // Select a new theme
-        var themeIndex: Int
-        if let previousThemeIndex = lastThemeIndex {
-            repeat {
-                themeIndex = emojiThemes.count.arc4random
-            } while themeIndex == previousThemeIndex
-        }
-        else {
-            themeIndex = emojiThemes.count.arc4random
-        }
-        lastThemeIndex = themeIndex
-        
-        // Set the new theme
-        emojiList = emojiThemes[themeIndex]
-        let backgroundColor = themeColors[themeIndex]["background"]
-        cardColor = themeColors[themeIndex]["cards"]!
-        self.view.backgroundColor = backgroundColor
-        flipCountLabel.textColor = cardColor
-        gameScoreLabel.textColor = cardColor
-        newGameButton.setTitleColor(cardColor, for: UIControl.State.normal)
-        for index in cardButtons.indices {
-            cardButtons[index].backgroundColor = cardColor
-        }
-    }
-    
+    /// Stores the curent game of Concentration, including the state of cards, flips, and score.
     lazy private var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
     
-    @IBOutlet weak var flipCountLabel: UILabel!
-    @IBOutlet var cardButtons: [UIButton]!
-    @IBOutlet weak var gameScoreLabel: UILabel!
-    @IBOutlet weak var newGameButton: UIButton!
+    /// Outlets for elements of the UI
+    @IBOutlet private weak var flipCountLabel: UILabel!
+    @IBOutlet private var cardButtons: [UIButton]!
+    @IBOutlet private weak var gameScoreLabel: UILabel!
+    @IBOutlet private weak var newGameButton: UIButton!
     
     /// Flips over card `sender` when user touches that card.
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         flipCard(on: sender)
     }
     
     /// Creates a new game when the user touches `newGameButton`
-    @IBAction func touchNewGameButton(_ sender: UIButton) {
+    @IBAction private func touchNewGameButton(_ sender: UIButton) {
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
         setNewTheme()
         updateViewFromModel()
     }
     
-    /// Flips over card `card` when user touches that card (internal implementation).
-    private func flipCard(on card: UIButton) {
-        let cardIndex = cardButtons.firstIndex(of: card)!
-        if !game.cards[cardIndex].isMatched {
-            if !game.cards[cardIndex].isFaceUp {
-                game.chooseCard(at: cardIndex)
-                updateViewFromModel()
-            }
-        }
-    }
-    
-    /// Updates the UI after a card is chosen.
-    private func updateViewFromModel() {
-        flipCountLabel.text = "Flips: \(game.flipCount)"
-        gameScoreLabel.text = "Score: \(game.gameScore)"
-        for index in cardButtons.indices {
-            if game.cards[index].isFaceUp {
-                cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-                cardButtons[index].setTitle(emoji(forCardID: game.cards[index].identifier), for: UIControl.State.normal)
-            }
-            else {
-                cardButtons[index].setTitle("", for: UIControl.State.normal)
-                cardButtons[index].backgroundColor = game.cards[index].isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : cardColor
-            }
-        }
-        
-        // When all cards matched, display win message
-        if game.isFinished {
-            showWinMessage()
-        }
-    }
-    
-    /// Displays a win message when the user has macthed all pairs of cards.
-    private func showWinMessage() {
-        for index in cardButtons.indices {
-            cardButtons[index].setTitle("", for: UIControl.State.normal)
-            cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
-        }
-        flipCountLabel.textColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
-        gameScoreLabel.text = "You win!"
-    }
-
     /// Contains all emojis for all possible themes.
     private let emojiThemes = [["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎", "🧟‍♀️"],
                                ["⚽️", "🏀", "🏈", "⚾️", "🏐", "🎾", "⛳️", "🥊", "🏊‍♀️", "🚴‍♂️"],
@@ -147,6 +80,74 @@ class ViewController: UIViewController {
         return "?"
     }
     
+    /// Flips over card `card` when user touches that card (internal implementation).
+    private func flipCard(on card: UIButton) {
+        let cardIndex = cardButtons.firstIndex(of: card)!
+        if !game.cards[cardIndex].isMatched {
+            if !game.cards[cardIndex].isFaceUp {
+                game.chooseCard(at: cardIndex)
+                updateViewFromModel()
+            }
+        }
+    }
+    
+    /// Sets a new theme for the Concentration game.
+    private func setNewTheme() {
+        // Select a new theme
+        var themeIndex: Int
+        if let previousThemeIndex = lastThemeIndex {
+            repeat {
+                themeIndex = emojiThemes.count.arc4random
+            } while themeIndex == previousThemeIndex
+        }
+        else {
+            themeIndex = emojiThemes.count.arc4random
+        }
+        lastThemeIndex = themeIndex
+        
+        // Set the new theme
+        emojiList = emojiThemes[themeIndex]
+        let backgroundColor = themeColors[themeIndex]["background"]
+        cardColor = themeColors[themeIndex]["cards"]!
+        self.view.backgroundColor = backgroundColor
+        flipCountLabel.textColor = cardColor
+        gameScoreLabel.textColor = cardColor
+        newGameButton.setTitleColor(cardColor, for: UIControl.State.normal)
+        for index in cardButtons.indices {
+            cardButtons[index].backgroundColor = cardColor
+        }
+    }
+    
+    /// Updates the UI after a card is chosen.
+    private func updateViewFromModel() {
+        flipCountLabel.text = "Flips: \(game.flipCount)"
+        gameScoreLabel.text = "Score: \(game.gameScore)"
+        for index in cardButtons.indices {
+            if game.cards[index].isFaceUp {
+                cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                cardButtons[index].setTitle(emoji(forCardID: game.cards[index].identifier), for: UIControl.State.normal)
+            }
+            else {
+                cardButtons[index].setTitle("", for: UIControl.State.normal)
+                cardButtons[index].backgroundColor = game.cards[index].isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : cardColor
+            }
+        }
+        
+        // When all cards matched, display win message
+        if game.isFinished {
+            showWinMessage()
+        }
+    }
+    
+    /// Displays a win message when the user has macthed all pairs of cards.
+    private func showWinMessage() {
+        for index in cardButtons.indices {
+            cardButtons[index].setTitle("", for: UIControl.State.normal)
+            cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
+        }
+        flipCountLabel.textColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
+        gameScoreLabel.text = "You win!"
+    }
 }
 
 extension Int {

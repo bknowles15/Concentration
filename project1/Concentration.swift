@@ -11,17 +11,17 @@ import Foundation
 /// A game of Concentration, including cards and logic to operate the game.
 class Concentration {
     var cards = [Card]()
-    private(set) var numberOfPairsOfCards: Int
     var flipCount = 0
     var gameScore = 0
-    var seenCardIndices: Set<Int> = []
     var isFinished = false
-    var numberOfMatchedPairs = 0
+    private var seenCardIndices: Set<Int> = []
+    private var numberOfMatchedPairs = 0
+    private(set) var numberOfPairsOfCards: Int
     
     /// The index of the only face up card when only one card is face up.
     /// If there are 0 or 2 face up cards, this is nil.
     // Time complexity: O(N), where N = number of cards
-    var indexOfOneAndOnlyFaceUpCard: Int? {
+    private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
             // Find the one and only face up card, if there is one
             var faceUpIndex: Int?

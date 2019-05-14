@@ -14,7 +14,7 @@ class Card {
     var isMatched: Bool
     var identifier: Int
 
-    static var currentIdentifier: Int = 0
+    static private(set) var currentIdentifier: Int = 0
     
     /// Returns a new identifier for a card, set by the programmer.
     static func getNewIdentifier() -> Int {

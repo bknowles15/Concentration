@@ -9,6 +9,38 @@
 import UIKit
 
 class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNewTheme()
+    }
+    
+    /// Sets a new theme for the Concentration game.
+    private func setNewTheme() {
+        // Select a new theme
+        var themeIndex: Int
+        if let previousThemeIndex = lastThemeIndex {
+            repeat {
+                themeIndex = emojiThemes.count.arc4random
+            } while themeIndex == previousThemeIndex
+        }
+        else {
+            themeIndex = emojiThemes.count.arc4random
+        }
+        lastThemeIndex = themeIndex
+        
+        // Set the new theme
+        emojiList = emojiThemes[themeIndex]
+        let backgroundColor = themeColors[themeIndex]["background"]
+        cardColor = themeColors[themeIndex]["cards"]!
+        self.view.backgroundColor = backgroundColor
+        flipCountLabel.textColor = cardColor
+        gameScoreLabel.textColor = cardColor
+        newGameButton.setTitleColor(cardColor, for: UIControl.State.normal)
+        for index in cardButtons.indices {
+            cardButtons[index].backgroundColor = cardColor
+        }
+    }
+    
     lazy private var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
     
     /// Flips over card `sender` when user touches that card.
@@ -18,11 +50,14 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var flipCountLabel: UILabel!
     @IBOutlet var cardButtons: [UIButton]!
-    @IBOutlet weak var gameScore: UILabel!
+    @IBOutlet weak var gameScoreLabel: UILabel!
     @IBOutlet weak var newGameButton: UIButton!
     
     /// Creates a new game when the user touches `newGameButton`
     @IBAction func touchNewGameButton(_ sender: UIButton) {
+        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        setNewTheme()
+        updateViewFromModel()
     }
     
     
@@ -47,7 +82,7 @@ class ViewController: UIViewController {
             }
             else {
                 cardButtons[index].setTitle("", for: UIControl.State.normal)
-                cardButtons[index].backgroundColor = game.cards[index].isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+                cardButtons[index].backgroundColor = game.cards[index].isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : cardColor
             }
         }
     }
@@ -62,14 +97,17 @@ class ViewController: UIViewController {
     
     /// Contains all color schemes for all possible themes.
     private let themeColors = [["background": #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), "cards": #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)],
-                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
-                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
-                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
-                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)],
-                               ["background": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), "cards": #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]]
+                               ["background": #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), "cards": #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)],
+                               ["background": #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1), "cards": #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)],
+                               ["background": #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1), "cards": #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)],
+                               ["background": #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), "cards": #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)],
+                               ["background": #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), "cards": #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)]]
     
-    private var emojiList = ["🦇", "😱", "🙀", "😈", "🎃", "👻", "🍭", "🍬", "🍎", "🧟‍♀️"]
+    private var lastThemeIndex: Int?
     
+    private var cardColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+    
+    private var emojiList = [String]()
     private var emojiDict = [Int: String]()
     
     /// Returns the emoji for card with identifier `identifier`.

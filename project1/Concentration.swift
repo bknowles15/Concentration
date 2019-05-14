@@ -20,6 +20,7 @@ class Concentration {
     
     /// The index of the only face up card when only one card is face up.
     /// If there are 0 or 2 face up cards, this is nil.
+    // Time complexity: O(N), where N = number of cards
     var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
             // Find the one and only face up card, if there is one
@@ -49,6 +50,7 @@ class Concentration {
     func chooseCard(at index: Int) {
         if !cards[index].isMatched {
             flipCount += 1
+            // Another face up card exists
             if let otherFaceUpCardIndex = indexOfOneAndOnlyFaceUpCard {
                 cards[index].isFaceUp = true
                 // Cards match
@@ -73,6 +75,7 @@ class Concentration {
                     seenCardIndices.insert(cards[otherFaceUpCardIndex].identifier)
                 }
             }
+            // No other face up card exists
             else {
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = index

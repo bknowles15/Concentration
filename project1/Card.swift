@@ -9,10 +9,16 @@
 import Foundation
 
 /// A card in the Concentration game.
-class Card {
+class Card: Hashable {
+    var hashValue: Int { return identifier }
+    
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
     var isFaceUp: Bool
     var isMatched: Bool
-    var identifier: Int
+    private var identifier: Int
 
     static private(set) var currentIdentifier: Int = 0
     

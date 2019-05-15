@@ -62,19 +62,19 @@ class ViewController: UIViewController {
     /// An emoji is removed from this list when it is picked in-game.
     private var emojiList = [String]()
     
-    /// Contains the mapping from card identifiers to corresponding emojis.
-    private var emojiDict = [Int: String]()
+    /// Contains the mapping from cards to corresponding emojis.
+    private var emojiDict = [Card: String]()
     
     /// Returns the emoji for card with identifier `identifier`.
-    private func emoji(forCardID identifier: Int) -> String {
-        if emojiDict[identifier] != nil {
-            return emojiDict[identifier]!
+    private func emoji(forCard card: Card) -> String {
+        if emojiDict[card] != nil {
+            return emojiDict[card]!
         }
         if emojiList.count > 0 {
             let randomNumber = emojiList.count.arc4random
             let resultEmoji = emojiList[randomNumber]
             emojiList.remove(at: randomNumber)
-            emojiDict[identifier] = resultEmoji
+            emojiDict[card] = resultEmoji
             return resultEmoji
         }
         return "?"
@@ -125,7 +125,7 @@ class ViewController: UIViewController {
         for index in cardButtons.indices {
             if game.cards[index].isFaceUp {
                 cardButtons[index].backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-                cardButtons[index].setTitle(emoji(forCardID: game.cards[index].identifier), for: UIControl.State.normal)
+                cardButtons[index].setTitle(emoji(forCard: game.cards[index]), for: UIControl.State.normal)
             }
             else {
                 cardButtons[index].setTitle("", for: UIControl.State.normal)

@@ -9,14 +9,14 @@
 import Foundation
 
 /// A game of Concentration, including cards and logic to operate the game.
-class Concentration {
-    var cards = [Card]()
-    var flipCount = 0
-    var gameScore = 0
-    var isFinished = false
-    private var seenCardIndices: Set<Int> = []
+struct Concentration {
+    private(set) var cards = [Card]()
+    private(set) var flipCount = 0
+    private(set) var gameScore = 0
+    private(set) var isFinished = false
+    private var seenCardIndices: Set<Card> = []
     private var numberOfMatchedPairs = 0
-    private(set) var numberOfPairsOfCards: Int
+    private var numberOfPairsOfCards: Int
     
     /// The index of the only face up card when only one card is face up.
     /// If there are 0 or 2 face up cards, this is nil.
@@ -24,16 +24,8 @@ class Concentration {
     private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
             // Find the one and only face up card, if there is one
-            var faceUpIndex: Int?
-            for index in cards.indices {
-                if cards[index].isFaceUp, faceUpIndex == nil {
-                    faceUpIndex = index
-                }
-                else if cards[index].isFaceUp {
-                    return nil
-                }
-            }
-            return faceUpIndex
+            let indicesOfFaceUpCards = cards.indices.filter { cards[$0].isFaceUp }
+            return indicesOfFaceUpCards.oneAndOnly
         }
         set {
             // Mark all cards as face down except the one and only face up card
@@ -47,14 +39,14 @@ class Concentration {
     }
     
     /// Marks selected card as face up and determines if user has found match.
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
         if !cards[index].isMatched {
             flipCount += 1
             // Another face up card exists
             if let otherFaceUpCardIndex = indexOfOneAndOnlyFaceUpCard {
                 cards[index].isFaceUp = true
                 // Cards match
-                if cards[otherFaceUpCardIndex].identifier == cards[index].identifier {
+                if cards[otherFaceUpCardIndex] == cards[index] {
                     cards[index].isMatched = true
                     cards[otherFaceUpCardIndex].isMatched = true
                     gameScore += 2
@@ -65,14 +57,14 @@ class Concentration {
                 }
                 // Cards do not match
                 else {
-                    if seenCardIndices.contains(cards[index].identifier) {
+                    if seenCardIndices.contains(cards[index]) {
                         gameScore -= 1
                     }
-                    if seenCardIndices.contains(cards[otherFaceUpCardIndex].identifier) {
+                    if seenCardIndices.contains(cards[otherFaceUpCardIndex]) {
                         gameScore -= 1
                     }
-                    seenCardIndices.insert(cards[index].identifier)
-                    seenCardIndices.insert(cards[otherFaceUpCardIndex].identifier)
+                    seenCardIndices.insert(cards[index])
+                    seenCardIndices.insert(cards[otherFaceUpCardIndex])
                 }
             }
             // No other face up card exists
@@ -96,3 +88,15 @@ class Concentration {
         cards.shuffle()
     }
 }
+
+extension Collection {
+    var oneAndOnly: Element? {
+        if self.count == 1 {
+            return self.first
+        }
+        else {
+            return nil
+        }
+    }
+}
+
